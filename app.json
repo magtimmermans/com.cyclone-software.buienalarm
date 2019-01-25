@@ -1,0 +1,271 @@
+{
+  "id": "com.cyclone-software.buienalarm",
+  "version": "1.0.0",
+  "compatibility": ">=2.0.0",
+  "sdk": 2,
+  "name": {
+    "en": "BuienAlarm"
+  },
+  "description": {
+    "en": "Informs you about the expected rain",
+    "nl": "Geeft je informatie over de verwachte regen"
+  },
+  "category": "internet",
+  "permissions": ["homey:manager:geolocation"],
+  "images": {
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png"
+  },
+  "brandColor": "#E8461D",
+  "contributing": {
+      "donate": {
+          "paypal": {
+              "username": "marceltimmermans"
+          }
+      }
+  },
+  "author": {
+    "name": "Marcel Timmermans",
+    "email": "marcel@timmermans.us"
+  },
+  "flow": {
+    "triggers": [
+      {
+        "id": "rain_start",
+        "title": {
+          "en": "It starts raining",
+          "nl": "Het begint met regenen"
+        }
+      },
+      {
+        "id": "rain_stop",
+        "title": {
+          "en": "It stops raining",
+          "nl": "Het stopt met regenen"
+        }
+      },
+      {
+        "id": "raining_in",
+        "title": {
+          "en": "It is going to rain in...",
+          "nl": "Het gaat regenen over..."
+        },
+        "args": [
+          {
+            "name": "when",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "5",
+                "label": {
+                  "en": "5 minutes",
+                  "nl": "5 minuten"
+                }
+              },
+              {
+                "id": "10",
+                "label": {
+                  "en": "10 minutes",
+                  "nl": "10 minuten"
+                }
+              },
+              {
+                "id": "15",
+                "label": {
+                  "en": "15 minutes",
+                  "nl": "15 minuten"
+                }
+              },
+              {
+                "id": "30",
+                "label": {
+                  "en": "30 minutes",
+                  "nl": "30 minuten"
+                }
+              },
+              {
+                "id": "45",
+                "label": {
+                  "en": "45 minutes",
+                  "nl": "45 minuten"
+                }
+              },
+              {
+                "id": "60",
+                "label": {
+                  "en": "1 hour",
+                  "nl": "1 hour"
+                }
+              },
+              {
+                "id": "90",
+                "label": {
+                  "en": "1.5 hours",
+                  "nl": "1.5 uur"
+                }
+              },
+              {
+                "id": "120",
+                "label": {
+                  "en": "2 hours",
+                  "nl": "2 uur"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dry_in",
+        "title": {
+          "en": "It is going to be dry in...",
+          "nl": "Het stopt met regenen over..."
+        },
+        "args": [
+          {
+            "name": "when",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "5",
+                "label": {
+                  "en": "5 minutes",
+                  "nl": "5 minuten"
+                }
+              },
+              {
+                "id": "10",
+                "label": {
+                  "en": "10 minutes",
+                  "nl": "10 minuten"
+                }
+              },
+              {
+                "id": "15",
+                "label": {
+                  "en": "15 minutes",
+                  "nl": "15 minuten"
+                }
+              },
+              {
+                "id": "30",
+                "label": {
+                  "en": "30 minutes",
+                  "nl": "30 minuten"
+                }
+              },
+              {
+                "id": "45",
+                "label": {
+                  "en": "45 minutes",
+                  "nl": "45 minuten"
+                }
+              },
+              {
+                "id": "60",
+                "label": {
+                  "en": "1 hour",
+                  "nl": "1 hour"
+                }
+              },
+              {
+                "id": "90",
+                "label": {
+                  "en": "1.5 hours",
+                  "nl": "1.5 uur"
+                }
+              },
+              {
+                "id": "120",
+                "label": {
+                  "en": "2 hours",
+                  "nl": "2 uur"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "conditions": [
+      {
+        "id": "is_raining",
+        "title": {
+          "en": "It !{{is|isn't}} raining",
+          "nl": "Het !{{is|is niet}} aan het regenen"
+        }
+      },
+      {
+        "id": "raining_in",
+        "title": {
+          "en": "It !{{is|isn't}} going to rain in...",
+          "nl": "Het !{{gaat|gaat niet}} regenen over..."
+        },
+        "args": [
+          {
+            "name": "when",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "5",
+                "label": {
+                  "en": "5 minutes",
+                  "nl": "5 minuten"
+                }
+              },
+              {
+                "id": "10",
+                "label": {
+                  "en": "10 minutes",
+                  "nl": "10 minuten"
+                }
+              },
+              {
+                "id": "15",
+                "label": {
+                  "en": "15 minutes",
+                  "nl": "15 minuten"
+                }
+              },
+              {
+                "id": "30",
+                "label": {
+                  "en": "30 minutes",
+                  "nl": "30 minuten"
+                }
+              },
+              {
+                "id": "45",
+                "label": {
+                  "en": "45 minutes",
+                  "nl": "45 minuten"
+                }
+              },
+              {
+                "id": "60",
+                "label": {
+                  "en": "1 hour",
+                  "nl": "1 hour"
+                }
+              },
+              {
+                "id": "90",
+                "label": {
+                  "en": "1.5 hours",
+                  "nl": "1.5 uur"
+                }
+              },
+              {
+                "id": "120",
+                "label": {
+                  "en": "2 hours",
+                  "nl": "2 uur"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
