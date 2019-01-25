@@ -134,7 +134,7 @@ class BuienAlarm extends Homey.App {
     
         // Schedule next sync.
         this.timeout = setTimeout(
-          () => this.sync(),
+          () => this.poll(),
            5 * MINUTE
         );
 	}

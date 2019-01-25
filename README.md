@@ -9,7 +9,7 @@ This application is only working in the Netherlands and Belgium (**untested**)
 
 ## Version
 
-### V1.0.0
+### V1.0.1
 This is the first beta version of BuienAlarm App.
 
 
