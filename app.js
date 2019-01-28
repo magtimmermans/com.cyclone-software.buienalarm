@@ -80,13 +80,16 @@ class BuienAlarm extends Homey.App {
 					this.rainStartTrigger.trigger();
 			} else if (!isRaining && this.isRaining===true) {
 				// stopped raining
+				this.isRaining=false;
 				this.log('stopped raining');
 				this.rainStopTrigger.trigger();
 			} else if (isRaining && this.isRaining===false) {
 				// starts raining
+				this.isRaining=true;
 				this.log('starts raining');
 				this.rainStartTrigger.trigger();
 			}
+
 
 			let startDate = new Date(result.unix_timestamp*1000);
 
