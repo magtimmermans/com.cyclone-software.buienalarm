@@ -1,0 +1,30 @@
+html {
+    font-family: Arial, Helvetica, sans-serif !important;
+    -webkit-text-size-adjust: 100%;
+    font-size: 14px !important;
+}
+
+html,
+body, 
+app {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.title {
+    margin: 0;
+    line-height: 40px;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#RainTable { border-collapse: collapse; width:100%; }
+#RainTable tr {border-bottom:1px solid #AAA;}
+.icon-cell { text-align: right;} 
+.icon-cell img {max-width:25px;max-height:25px;padding-right:10px;}
+
+[v-cloak] { display: none; }
+
+

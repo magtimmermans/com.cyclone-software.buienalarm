@@ -1,6 +1,6 @@
 {
   "id": "com.cyclone-software.buienalarm",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "compatibility": ">=2.0.0",
   "sdk": 2,
   "name": {
@@ -11,7 +11,7 @@
     "nl": "Geeft je informatie over de verwachte regen"
   },
   "category": "internet",
-  "permissions": ["homey:manager:geolocation"],
+  "permissions": ["homey:manager:geolocation","homey:manager:api"],
   "images": {
     "large": "/assets/images/large.png",
     "small": "/assets/images/small.png"
@@ -185,9 +185,105 @@
             ]
           }
         ]
-      }
+      },
+      {
+      "id": "triggerRainPercentage",
+        "title": {
+           "en": "Percentage of rain for comming 2 hours is more than ..",
+           "nl": "Het regen percentage voor de komende 2 uur is meer dan .."
+        },
+        "tokens": [
+           {
+              "name": "rainpercentage",
+              "type": "number",
+              "title": {
+                 "en": "Expected rain percentage",
+                 "nl": "Verwachte regen percentage"
+              },
+              "example": 25
+           }
+        ],
+        "args":[
+          {
+               "name": "rainpercentageArg",
+               "type": "number",
+               "min": 0,
+               "max": 100,
+               "step": 1,
+               "placeholder": {
+                  "en": "Rain percentage",
+                  "nl": "Regen percentage"
+               }
+           }
+        ]
+     },
+     {
+     "id": "totalRainNextHour",
+       "title": {
+          "en": "For the next hour the total rain is more than ..",
+          "nl": "Verwachte hoeveelheid regen voor komende uur is meer dan .."
+       },
+       "tokens": [
+          {
+             "name": "rainmm",
+             "type": "number",
+             "title": {
+                "en": "Rain in mm",
+                "nl": "Regen in mm"
+             },
+             "example": 1.5
+          }
+       ],
+       "args":[
+         {
+              "name": "rainmmArg",
+              "type": "number",
+              "placeholder": {
+                 "en": "Rain mm",
+                 "nl": "Regen mm"
+              }
+          }
+       ]
+    }
     ],
     "conditions": [
+      {
+        "id": "is_mmrain",
+        "title": {
+          "en": "Does it rain the comming hour !{{more|less}} then .. ",
+          "nl": "Het regent de komende uren !{{meer|minder}} dan..."
+        },
+        "args": [
+          {
+            "name": "rainmmArg",
+            "type": "number",
+            "placeholder": {
+               "en": "Rain mm",
+               "nl": "Regen mm"
+            }
+          }
+        ]
+      },
+      {
+        "id": "is_percrain",
+        "title": {
+          "en": "The percentage rain is !{{more|less}} then .. ",
+          "nl": "Het percentage regen is !{{meer|minder}} dan..."
+        },
+        "args": [
+          {
+            "name": "rainpercentageArg",
+            "type": "number",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "placeholder": {
+               "en": "Rain percentage",
+               "nl": "Regen percentage"
+            }
+          }
+        ]
+      },
       {
         "id": "is_raining",
         "title": {

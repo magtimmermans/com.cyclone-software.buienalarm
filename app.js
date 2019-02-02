@@ -13,6 +13,9 @@ class BuienAlarm extends Homey.App {
 		this.isRaining = null;
 		this.rainStopTriggered = false;
 		this.rainStartTriggered = false;
+		this.data = {};
+		this.rainpercentage = 0;
+		this.rainmm = 0;
 	
 		this.registerBuienAlarmGrabber();
 		Homey.ManagerGeolocation.on('location', this.registerBuienAlarmGrabber.bind(this));	
@@ -22,8 +25,6 @@ class BuienAlarm extends Homey.App {
 		// Start syncing periodically.
 		this.shouldSync = true;
 		this.startSyncing();
-
-		setInterval(this.poll.bind(this), 5 * MINUTE);
 	}
 
 	async startSyncing() {
@@ -40,38 +41,100 @@ class BuienAlarm extends Homey.App {
 		let latitude = Homey.ManagerGeolocation.getLatitude();
         let longitude = Homey.ManagerGeolocation.getLongitude();
 
-        this.api = new BuienAlarmGrabber({ lat: latitude, lon: longitude });
+        this.ba_api = new BuienAlarmGrabber({ lat: latitude, lon: longitude });
 	}
 
     initFlows() {
         this.rainStartTrigger = new Homey.FlowCardTrigger('rain_start').register();
         this.rainStopTrigger = new Homey.FlowCardTrigger('rain_stop').register();
         this.rainInTrigger = new Homey.FlowCardTrigger('raining_in').register();
-        this.dryInTrigger = new Homey.FlowCardTrigger('dry_in').register();
+		this.dryInTrigger = new Homey.FlowCardTrigger('dry_in').register();
+		
+		this.trgRainPercentage = new Homey.FlowCardTrigger("triggerRainPercentage").register()
+			.registerRunListener( ( args, state ) => {
+					if (state.rainpercentageArg>args.rainpercentageArg) {
+						return Promise.resolve( true );
+					} else
+						return Promise.resolve( false );
+			});
+
+		this.trgtotalRainNextHour = new Homey.FlowCardTrigger("totalRainNextHour").register()
+			.registerRunListener( ( args, state ) => {
+					if (state.rainmmArg>args.rainmmArg) {
+						return Promise.resolve( true );
+					} else
+						return Promise.resolve( false );
+			});
+
         this.rainCondition = new Homey.FlowCardCondition('is_raining').register()
             .registerRunListener(async (args, state) => {
                 return this.isRaining;
             });
         this.rainInCondition = new Homey.FlowCardCondition('raining_in').register()
             .registerRunListener(async (args, state) => {
-				console.log(args.when);
-                return false;
+				let index = (args.when / 5) - 1;
+			    return this.rainData[index]>0;
+			});
+
+		this.rainmmCondition = new Homey.FlowCardCondition('is_mmrain').register()
+            .registerRunListener(async (args, state) => {
+				return this.rainmm>args.rainmmArg;
             });
+        this.rrainPercentageCondition = new Homey.FlowCardCondition('is_percrain').register()
+            .registerRunListener(async (args, state) => {
+				return this.rainpercentage>args.rainpercentageArg;
+			});		
 	}
 	
 	addMinutesToTime(time, minutes) {
         return new Date(time.getTime() + minutes * 60000);
-    }
+	}
+	
+	// calculate % of rain the comming 2 hours
+	procentageOfRain(data) {
+		let total = 0;
+		for (let index = 0; index < data.length; index++) {
+			 if (data[index]>0) total++;
+		}
+		return (total>0) ? Math.round((total/25)*100) : 0;
+	}
+
+	// calculate % of rain the comming 2 hours
+	totalRainCommingHour(data) {
+		let total = 0;
+		for (let index = 0; index < 12; index++) {
+			 total += data[index];
+		}
+		return total;
+	}
 
 	async poll() {
 		// Check if it is raining at this moment
 		this.isSyncing = true;
+		var me = this
 		try {
-            let result = await this.api.getForecasts();
+            let result = await this.ba_api.getForecasts();
+
+			me.data = result;
+
+			// fake some rain
+			// result.rainData[1]=1;
+			// result.rainData[2]=1.5;
+			// result.rainData[3]=0.4;
+			// result.rainData[5]=3;
+			// result.rainData[6]=0.5;
+			
 			console.log(result);
 			
 			let isRaining = result.rainData[0]>0;
 
+			this.rainpercentage = this.procentageOfRain(result.rainData);
+			this.rainmm = this.totalRainCommingHour(result.rainData);
+
+			this.trgRainPercentage.trigger( {rainpercentage: this.rainpercentage}, {rainpercentageArg: this.rainpercentage}).catch(err => this.error(err));
+			this.trgtotalRainNextHour.trigger({rainmm: this.rainmm}, {rainmmArg: this.rainmm}).catch(err => this.error(err));
+
+			this.log(`Rain Percentage:${this.rainpercentage}, Total rain within hour:${this.rainmm}`);
 			this.log(`current isRaining: ${this.isRaining} new isRaining: ${isRaining}`);
 
 			if (this.isRaining===null) {
@@ -144,6 +207,10 @@ class BuienAlarm extends Homey.App {
           () => this.poll(),
            5 * MINUTE
         );
+	}
+
+	getRainData() {
+		return this.data;
 	}
 	
 }

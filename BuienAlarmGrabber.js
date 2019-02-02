@@ -10,7 +10,7 @@ module.exports = class BuienAlarmGrabber {
 	}
 	
 	async getForecasts() {  
-        console.log(`Get forcast from Longitude:${this.lon} Latitude:${this.lat}`);   
+        console.log(`Get forcast from https://cdn-secure.buienalarm.nl/api/3.4/forecast.php?lat=${this.lat}&lon=${this.lon}&region=nl&unit=mm/u`);   
 		const res = await fetch(`https://cdn-secure.buienalarm.nl/api/3.4/forecast.php?lat=${this.lat}&lon=${this.lon}&region=nl&unit=mm/u`);
 		if( !res.ok ) throw new Error('Unknown Error');
         const data = await res.json();

@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <script type="text/javascript" src="vue.min.js" data-origin="settings"></script>
+    <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
+    <script type="text/javascript" src="settings.js" data-origin="settings"></script>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <p data-i18n="settings.title" class="title"></p>
+        <div id="RainSection">
+                <table id="RainTable">
+                 <tbody>
+                   <tr v-for="(item, index) in raindata.rainData">
+                     <td class="time-cell">{{ getTime(index) }}</td>
+                     <td class="rain-cell"> {{ item }}mm</td>
+                     <td class="icon-cell"><img v-bind:src="getIcon(item)"></img></td>
+                   </tr>
+                 </tbody>
+               </table>
+        </div>
+    </div>
+</body>
+</html>
