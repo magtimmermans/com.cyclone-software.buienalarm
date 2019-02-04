@@ -176,14 +176,14 @@ class BuienAlarm extends Homey.App {
 
 				this.log(`Index: ${index}, inMinutes ${inMinutes} , isRaining:${this.isRaining} NewRaining: ${isRainingNew}, firstime:${this.firstTime}`);
 
-				if ((!isRainingNew && this.isRaining === true) || (!isRainingNew && this.firstTime === true)) {
+				if ((!isRainingNew && this.isRaining === true && this.rainStopTriggered === false) || (!isRainingNew && this.firstTime === true)) {
 					this.log(`TRIGGERING FLOW STOP IN: Time: ${date}, raining: ${isRainingNew}`);
 					this.dryInTrigger.trigger(null, { when: inMinutes.toString() });
 
-					// this.rainStopTriggered = true;
-					// setTimeout(() => {
-					// 	this.rainStopTriggered = false;
-					// }, inMinutes * MINUTE);
+					this.rainStopTriggered = true;
+					setTimeout(() => {
+						this.rainStopTriggered = false;
+					}, inMinutes * MINUTE);
 				} else if ((isRainingNew && this.isRaining === false) || (isRainingNew && this.firstTime === true)) {
 					this.log(`TRIGGERING FLOW START IN: Time: ${date}, raining: ${isRainingNew}`);
 					this.rainInTrigger.trigger(null, { when: inMinutes.toString() });
