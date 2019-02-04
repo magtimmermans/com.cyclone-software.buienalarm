@@ -9,6 +9,9 @@ This application is only working in the Netherlands and Belgium (**untested**)
 
 ## Version
 
+### V1.1.2
+Fixed rain trigger bugs (hopefully)
+
 ### V1.1.1
 removed some unneeded access rights.
 
