@@ -11,7 +11,7 @@
     "nl": "Geeft je informatie over de verwachte regen"
   },
   "category": "internet",
-  "permissions": ["homey:manager:geolocation","homey:manager:api"],
+  "permissions": ["homey:manager:geolocation"],
   "images": {
     "large": "/assets/images/large.png",
     "small": "/assets/images/small.png"
