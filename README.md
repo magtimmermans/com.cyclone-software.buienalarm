@@ -9,6 +9,9 @@ This application is only working in the Netherlands and Belgium (**untested**)
 
 ## Version
 
+### v1.1.4
+Fixed condition "is it raining over .."
+
 ### V1.1.2
 Fixed rain trigger bugs (hopefully)
 
