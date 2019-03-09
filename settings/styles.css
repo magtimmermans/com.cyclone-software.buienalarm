@@ -25,6 +25,7 @@ app {
 .icon-cell { text-align: right;} 
 .icon-cell img {max-width:25px;max-height:25px;padding-right:10px;}
 
-[v-cloak] { display: none; }
+[v-cloak] > * { display:none }
+[v-cloak]::before { content: "loading…" }
 
 

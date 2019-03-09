@@ -9,6 +9,9 @@ This application is only working in the Netherlands and Belgium (**untested**)
 
 ## Version
 
+### v1.1.5
+Introduced a bug in the latest version. Fixed it hopefully now. Fixed settings page which end up in endless loop.
+
 ### v1.1.4
 Fixed condition "is it raining over .."
 

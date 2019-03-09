@@ -81,8 +81,8 @@ class BuienAlarm extends Homey.App {
 			.registerRunListener(async (args, state) => this.isRaining);
 		this.rainInCondition = new Homey.FlowCardCondition('raining_in').register()
 			.registerRunListener(async (args, state) => {
-					const index = this.minuteToIndex(args.when);
-					return this.data.rainData[index] > 0;
+				const index = (args.when/5);
+				return this.data.rainData[index] > 0;
 			});
 
 		this.rainmmCondition = new Homey.FlowCardCondition('is_mmrain').register()
@@ -111,21 +111,6 @@ class BuienAlarm extends Homey.App {
 			 total += data[index];
 		}
 		return Math.round(total.toFixed(2) * 100) / 100;
-	}
-
-	minuteToIndex(minute){
-		let index = 0;
-		switch (parseInt(minute)) {
-			case 5 : index = 0; break;		
-			case 10: index = 1; break;
-			case 15: index = 2; break;
-			case 30: index = 3; break;
-			case 45: index = 4; break;
-			case 60: index = 5; break;
-			case 90: index = 6; break;
-			case 120:index = 7; break;
-		}
-		return index;
 	}
 
 	async poll() {
@@ -178,7 +163,7 @@ class BuienAlarm extends Homey.App {
 					case 6: inMinutes = 90; break;
 					case 7: inMinutes = 120; break;
 					default:
-					   this.log('Unknown muinutes');
+					   this.log('Unknown minutes');
 				}
 
 				const index = (inMinutes / 5);
@@ -199,14 +184,14 @@ class BuienAlarm extends Homey.App {
 					setTimeout(() => {
 						this.rainStopTriggered = false;
 					}, inMinutes * MINUTE);
-				} else if ((isRainingNew && this.isRaining === false && this.rainStartTriggered === false) || (isRainingNew && this.firstTime === true)) {
+				} else if ((isRainingNew && this.isRaining === false) || (isRainingNew && this.firstTime === true)) {
 					this.log(`TRIGGERING FLOW START IN: Time: ${date}, raining: ${isRainingNew}`);
 					this.rainInTrigger.trigger(null, { when: inMinutes.toString() });
 
-					this.rainStartTriggered = true;
-					setTimeout(() => {
-						this.rainStartTriggered = false;
-					}, inMinutes * MINUTE);
+					// this.rainStartTriggered = true;
+					// setTimeout(() => {
+					// 	this.rainStartTriggered = false;
+					// }, inMinutes * MINUTE);
 				}
 			}
 			this.firstTime = false;
@@ -224,6 +209,7 @@ class BuienAlarm extends Homey.App {
 	}
 
 	getRainData() {
+		console.log(this.data);
 		return this.data;
 	}
 
