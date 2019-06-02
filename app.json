@@ -11,6 +11,7 @@
     "nl": "Geeft je informatie over de verwachte regen"
   },
   "category": "internet",
+  "brandColor": "#2157C1",
   "permissions": ["homey:manager:geolocation"],
   "images": {
     "large": "/assets/images/large.png",
